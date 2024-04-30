@@ -1,0 +1,13 @@
+first write command to enable nestjs-"npm i -g @nest.js/cli"
+after it run command-"nest new api"
+for run this project go to "cd api" and after it "npm run start"
+add some pakages-"npm i @nestjs/typeorm typeorm" and "npm i pg @nestjs/config"
+postgress detail for backend to database connection-
+POSTGRESS_HOST=127.0.0.1
+POSTGRESS_PORT=5432
+POSTGRESS_USER=postgres
+POSTGRESS_PASSWORD=Admin
+POSTGRESS_DATABASE=linkedin
+
+to generate the feed module run command- "nest g mo feed"
+to generate the feed service run command- nest g s feed/services/feed
