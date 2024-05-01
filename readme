@@ -8,6 +8,9 @@ POSTGRESS_PORT=5432
 POSTGRESS_USER=postgres
 POSTGRESS_PASSWORD=Admin
 POSTGRESS_DATABASE=linkedin
-
+JWT_SECRET=jwtsecret
 to generate the feed module run command- "nest g mo feed"
+to generate the auth controller- nest g co auth/controllers/auth
 to generate the feed service run command- nest g s feed/services/feed
+npm i passport passport-jwt @nestjs/passport @nestjs/jwt bcrypt
+to generate the guard- nest g gu auth/guards/jwt
