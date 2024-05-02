@@ -7,6 +7,7 @@ export interface User{
     email?:string,
     phoneNumber?:string,
     password?:string,
+    captcha?:string,
     role?:Role,
     posts?:FeedPost[]
 }

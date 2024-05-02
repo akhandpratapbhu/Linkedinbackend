@@ -23,25 +23,34 @@ export class AuthService {
         user.password = hashedPassword;
         return this.userRepository.save(user);
       }
-      async loginUser(user: User): Promise<string> {
+      async loginUser(user: User): Promise<{ token: string }> {
         // Find the user by email or username (assuming you use email for login)
         const existingUser = await this.userRepository.findOne({ where: { email: user.email } });
-      
+    
         if (!existingUser) {
           throw new NotFoundException('User not found'); // User with provided email doesn't exist
         }
-      
+    
         // Check if the provided password matches the hashed password stored in the database
         const passwordMatches = await this.comparePasswords(user.password, existingUser.password);
-      
+    
         if (!passwordMatches) {
           throw new UnauthorizedException('Invalid credentials'); // Password doesn't match
         }
-      
-        // Login successful, return the user object
-        return this.jwtService.signAsync({existingUser});
+    
+        // Login successful, return the user object along with the token
+        const token = await this.generateToken(existingUser);
+        return { token };
       }
-      
+    
+      async generateToken(user: User): Promise<string> {
+        // Customize the token payload as needed
+        const payload = { id: user.id, email: user.email, username: user.username,role:user.role };
+    
+        // Sign the token with the payload
+        return this.jwtService.signAsync(payload);
+      }
+    
       async comparePasswords(plainPassword: string, hashedPassword: string): Promise<boolean> {
         // Compare the provided plain password with the hashed password using bcrypt
         return bcrypt.compare(plainPassword, hashedPassword);

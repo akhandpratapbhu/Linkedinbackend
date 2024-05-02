@@ -13,10 +13,11 @@ export class FeedService {
         @InjectRepository(FeedPostEntity)
         private readonly feedPostRepository: Repository<FeedPostEntity>
     ) { }
-    createPost(user:User,feedpost: FeedPost):Observable<FeedPost>{
-        feedpost.author=user
+    createPost(user:User,feedpost: FeedPost):Observable<FeedPost>{  
+      //  feedpost.author=user
         return from(this.feedPostRepository.save(feedpost))
     }
+   
     findAllPost():Observable<FeedPost[]>{
         return from(this.feedPostRepository.find())
     }
