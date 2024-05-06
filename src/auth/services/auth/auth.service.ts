@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Observable, from } from 'rxjs';
+import { Observable, from, tap } from 'rxjs';
 import { UserEntity } from 'src/auth/models/user.entity';
 import { User } from 'src/auth/models/user.interface';
 import { Repository } from 'typeorm';
@@ -55,5 +55,22 @@ export class AuthService {
         // Compare the provided plain password with the hashed password using bcrypt
         return bcrypt.compare(plainPassword, hashedPassword);
       }
+      // findUserById(id:any):Observable<User>{
+      //   return from(
+      //     this.userRepository.findOneById(id)).pipe(
+      //       tap((user:User)=>{
+      //         delete user.password;
+      //         return user;
+      //       }),
+      //     );
+      //   }
       
-}
+      async findUserById(id: number): Promise<any> {
+        const userId = await this.userRepository.findOneById(id);
+        if (!userId) {
+          throw new NotFoundException(`user with ID ${id} not found`);
+        }
+        return { ...userId};
+      }
+      }
+      
