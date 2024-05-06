@@ -15,7 +15,7 @@ export class FeedController {
 
    
     @UseGuards(JwtGuard, RolesGuard)
-    @Roles(Role.Admin)
+   // @Roles(Role.Admin)
     @Post()
     create(@Body() feedpost: FeedPost, @Request() req) {
         return this.feedService.createPost(req.user, feedpost)
