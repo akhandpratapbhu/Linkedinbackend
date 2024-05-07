@@ -36,12 +36,12 @@ export class FeedService {
     //     return from(this.feedPostRepository.findOneById(id));
     //   }
     async findPostById(id: number): Promise<any> {
-        const feedPost = await this.feedPostRepository.findOneById(id);
+        const feedPost = await this.feedPostRepository.find( {where:{ id:id},relations:['author'] });
         if (!feedPost) {
           throw new NotFoundException(`Post with ID ${id} not found`);
         }
-        const author = await this.userRepository.findOneById(feedPost.id); // Assuming 'authorId' is the foreign key
-        return { ...feedPost, author };
+        return feedPost;
       }
-}
-
+      
+    }
+ 
