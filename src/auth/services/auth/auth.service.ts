@@ -64,13 +64,12 @@ export class AuthService {
       //       }),
       //     );
       //   }
-      
       async findUserById(id: number): Promise<any> {
-        const userId = await this.userRepository.findOneById(id);
+        const userId = await this.userRepository.find( {where:{ id:id},relations:['feedPosts'] });
         if (!userId) {
-          throw new NotFoundException(`user with ID ${id} not found`);
+          throw new NotFoundException(`Post with ID ${id} not found`);
         }
-        return { ...userId};
+        return userId;
       }
       }
       

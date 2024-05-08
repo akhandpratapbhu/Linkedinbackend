@@ -5,11 +5,12 @@ import { AuthService } from 'src/auth/services/auth/auth.service';
 import { FeedPost } from 'src/feed/modes/post.interface';
 import { FeedService } from 'src/feed/services/feed/feed.service';
 import { from } from 'rxjs';
+import { UserService } from 'src/auth/services/user/user.service';
 
 @Injectable()
 export class IsCreatorGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private feedService: FeedService) { }
+  constructor(private userService: UserService, private feedService: FeedService) { }
   // async canActivate(
   //   context: ExecutionContext,
   // ): Promise<boolean | Promise<boolean> | Observable<boolean>> {
@@ -52,7 +53,7 @@ export class IsCreatorGuard implements CanActivate {
 
     // Determine if logged-in user is the same as the user that created the feed post
     const fid = await this.feedService.findPostById(feedId,);
-    const uid = await this.authService.findUserById(userId);
+    const uid = await this.userService.findUserById(userId);
 
     const feedPost = fid;
     const firstFeedPostAuthorId = feedPost[0].author.id;

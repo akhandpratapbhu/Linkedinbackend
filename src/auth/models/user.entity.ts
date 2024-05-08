@@ -13,7 +13,9 @@ export class UserEntity{
     
     @Column({unique:true})
     email:string;
-
+    
+    @Column({nullable:true})
+    image:string;
     @Column()
     phoneNumber:string;
 
