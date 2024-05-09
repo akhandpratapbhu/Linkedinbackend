@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Observable, from } from 'rxjs';
 import { UserEntity } from 'src/auth/models/user.entity';
 import { User } from 'src/auth/models/user.interface';
 import { Repository } from 'typeorm';
@@ -27,7 +28,12 @@ export class UserService {
         user.image=image;
       return this.userRepository.update(id,user)
       }
-      findImageNameById(id:number){  
-      return this.userRepository.findOneById(id)
+      async findImgUserById(id: number): Promise<string> {
+        const user = await this.userRepository.findOneById(id);
+        if (!user) {
+          throw new NotFoundException(`User with ID ${id} not found`);
+        }
+        return user.image // Assuming the user entity has a property "imageName" which holds the name of the image file
       }
+
 }
