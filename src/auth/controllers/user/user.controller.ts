@@ -20,7 +20,7 @@ export class UserController {
         const userId = req.user.id; // Assuming you have a user object attached to the request by the JwtAuthGuard
         // Now you can use the user ID and the uploaded file to update the user's profile image
         await this.userService.updateUserImageById(userId, file); // Assuming you have a method in your service to update the user's image
-        return { message: 'Image uploaded successfully' };
+        return { message: 'Image uploaded successfully' ,img:file};
       } catch (error) {
         console.error('Error uploading image:', error);
         throw new HttpException('Failed to upload image', HttpStatus.INTERNAL_SERVER_ERROR);
@@ -39,6 +39,19 @@ export class UserController {
       try {
         const imageName: string = await this.userService.findImgUserById(id);
         res.sendFile(imageName, { root: path.resolve('./uploads') });
+      } catch (error) {
+        if (error instanceof NotFoundException) {
+          throw error; // Rethrow NotFoundException to handle it globally
+        }
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+    }
+    // @UseGuards(JwtGuard)
+    @Get('image-name/:id')
+    async findImageNameUserById(@Param('id') id: number, @Res() res: Response): Promise<any> {
+      try {
+        const imageName: string = await this.userService.findImgUserById(id);
+      return   res.send(imageName);
       } catch (error) {
         if (error instanceof NotFoundException) {
           throw error; // Rethrow NotFoundException to handle it globally

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Request, Res, UseGuards } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Roles } from 'src/auth/decorators/role/roles.decorator';
 import { IsCreatorGuard } from 'src/auth/guards/is-creator/is-creator.guard';
@@ -42,5 +42,10 @@ export class FeedController {
     @Get(':id')
     findPostById(@Param('id') id: number): Promise<any> {
       return this.feedService.findPostById(id);
+    }
+    @Get('image/:fileName')
+    findImageByName(@Param('fileName') fileName:string,@Res()res){
+        if(!fileName || ['null','[null]'].includes(fileName)) return;
+        return res.sendFile(fileName,{root:'./uploads'});
     }
 }
