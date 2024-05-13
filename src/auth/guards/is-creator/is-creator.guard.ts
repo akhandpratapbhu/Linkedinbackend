@@ -57,13 +57,14 @@ export class IsCreatorGuard implements CanActivate {
 
     const feedPost = fid;
     const firstFeedPostAuthorId = feedPost[0].author.id;
-
+    const userIdCheck = uid[0].id;
+    
     //  console.log(feedPost,firstFeedPostAuthorId);
     // Check if the feed post and user exist
     if (!fid || !uid) return false;
 
     // Check if the user is the author of the feed post
-    return firstFeedPostAuthorId === uid.id;
+    return firstFeedPostAuthorId === userIdCheck
   }
 
 }

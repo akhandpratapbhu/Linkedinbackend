@@ -35,5 +35,11 @@ export class UserService {
         }
         return user.image // Assuming the user entity has a property "imageName" which holds the name of the image file
       }
-
+      async findImgNameUserById(id: number): Promise<object> {
+        const user = await this.userRepository.findOneById(id);
+        if (!user) {
+          throw new NotFoundException(`User with ID ${id} not found`);
+        }
+        return user // Assuming the user entity has a property "imageName" which holds the name of the image file
+      }
 }

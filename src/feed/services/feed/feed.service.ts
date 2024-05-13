@@ -22,7 +22,7 @@ export class FeedService {
     }
    
     findAllPost():Observable<FeedPost[]>{
-        return from(this.feedPostRepository.find())
+        return from(this.feedPostRepository.find({relations:['author'] }))
     }
     updateFeedPost(id,feedpost:FeedPost):Observable<UpdateResult>{
         return from(this.feedPostRepository.update(id,feedpost))

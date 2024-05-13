@@ -33,7 +33,7 @@ export class UserController {
     }
 
 
-   // @UseGuards(JwtGuard)
+    @UseGuards(JwtGuard)
     @Get('image/:id')
     async findImageUserById(@Param('id') id: number, @Res() res: Response): Promise<any> {
       try {
@@ -46,12 +46,12 @@ export class UserController {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
     }
-    // @UseGuards(JwtGuard)
+    @UseGuards(JwtGuard)
     @Get('image-name/:id')
     async findImageNameUserById(@Param('id') id: number, @Res() res: Response): Promise<any> {
       try {
-        const imageName: string = await this.userService.findImgUserById(id);
-      return   res.send(imageName);
+        const user= await this.userService.findImgNameUserById(id);
+      return   res.send(user);
       } catch (error) {
         if (error instanceof NotFoundException) {
           throw error; // Rethrow NotFoundException to handle it globally
