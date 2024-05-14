@@ -10,6 +10,7 @@ import { RolesGuard } from './guards/roles/roles.guard';
 import { UserService } from './services/user/user.service';
 import { UserController } from './controllers/user/user.controller';
 import { MulterModule } from '@nestjs/platform-express';
+import { FriendRequestEntity } from './models/friend-request.entity';
 @Module({
   imports:[ MulterModule.register({
     dest: './uploads', // Destination directory for uploaded files
@@ -20,7 +21,7 @@ import { MulterModule } from '@nestjs/platform-express';
    }) 
   })
     
-   , TypeOrmModule.forFeature([UserEntity])],
+   , TypeOrmModule.forFeature([UserEntity,FriendRequestEntity])],
   providers: [AuthService,JwtGuard,JwtStrategy,RolesGuard, UserService],
   controllers: [AuthController, UserController],
   exports:[AuthService,UserService]

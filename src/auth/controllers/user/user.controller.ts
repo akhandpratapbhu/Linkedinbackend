@@ -1,4 +1,4 @@
-import { Controller, Param,Get, Post, UseGuards,Request, UseInterceptors, UploadedFile, HttpException, HttpStatus, Res, NotFoundException } from '@nestjs/common';
+import { Controller, Param,Get, Post, UseGuards,Request, UseInterceptors, UploadedFile, HttpException, HttpStatus, Res, NotFoundException, Put, Body } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Observable, of, switchMap } from 'rxjs';
 import { JwtGuard } from 'src/auth/guards/jwt/jwt.guard';
@@ -6,6 +6,8 @@ import { storage } from 'src/auth/helpers/image-storage';
 import { UserService } from 'src/auth/services/user/user.service';
 import { Response } from 'express';
 import * as path from 'path';
+import { friendRequest, friendRequestStatus } from 'src/auth/models/friend-request.interface';
+import { User } from 'src/auth/models/user.interface';
 @Controller('user')
 export class UserController {
 
@@ -28,7 +30,7 @@ export class UserController {
     }
 
     @Get(':id')
-    findUserById(@Param('id') id: number): Promise<any> {
+    findUserById(@Param('id') id: number):Observable<User> {
       return this.userService.findUserById(id);
     }
 
@@ -58,5 +60,29 @@ export class UserController {
         }
         throw new NotFoundException(`User with ID ${id} not found`);
       }
+    }
+    @UseGuards(JwtGuard)
+    @Post('friend-request/send/:recieverId')
+    sendFriendRequest(@Param('recieverId') recieverId: number,@Request() req):Observable<friendRequest |{error:string}> {
+      return this.userService.sendFriendRequest(recieverId,req.user);
+    }
+
+    @UseGuards(JwtGuard)
+    @Get('friend-request/status/:recieverId')
+    getFriendRequestStatus(@Param('recieverId') recieverId: number,@Request() req):Observable<friendRequestStatus> {
+      return this.userService.getFriendRequestStatus(recieverId,req.user);
+    }
+
+    @UseGuards(JwtGuard)
+    @Put('friend-request/response/:friendRequestId')
+    responseToFriendRequest(@Param('friendRequestId') friendRequestId: number,@Body() statusResponse:friendRequestStatus):Observable<friendRequestStatus> {
+      return this.userService.responseToFriendRequest(friendRequestId,statusResponse.status);
+    }
+
+    @UseGuards(JwtGuard)
+    @Get('friend-request/me/:recieved-requests')
+    getFriendRequestfromRecipients(@Request() req): Observable<friendRequestStatus[]> {
+
+      return this.userService.getFriendRequestfromRecipients(req.user);
     }
 }
