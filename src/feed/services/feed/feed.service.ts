@@ -16,8 +16,10 @@ export class FeedService {
         @InjectRepository(UserEntity)
         private readonly userRepository: Repository<UserEntity>,
     ) { }
-    createPost(user:User,feedpost: FeedPost):Observable<FeedPost>{  
+    createPost(user:User,feedpost: FeedPost,req:any):Observable<FeedPost>{  
         feedpost.author=user
+        feedpost.body=req.body.body
+        feedpost.image=req.file.originalname; 
         return from(this.feedPostRepository.save(feedpost))
     }
    
@@ -29,6 +31,7 @@ export class FeedService {
     }
     deleteFeedPost(id):Observable<DeleteResult>{
         return from(this.feedPostRepository.delete(id))
+        
     }
  
     // findPostById(id: number): Observable<any> {

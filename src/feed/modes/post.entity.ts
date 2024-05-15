@@ -10,6 +10,9 @@ export class FeedPostEntity{
     @Column({default:''})
     body:string;
     
+    @Column({default:''})
+    image:string;
+    
     @Column({type:'timestamp',default:()=>'CURRENT_TIMESTAMP'})
     createAt:Date;
 
