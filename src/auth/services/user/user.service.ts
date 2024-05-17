@@ -114,19 +114,24 @@ export class UserService {
     return this.findUserById(recieveId).pipe(
       switchMap((reciever: UserEntity) => {
         return this.friendRequestRepository.findOne({
-          where: {
-            creator,
-            reciever,
-          },
+          where: [
+            { creator: { id: user.id }, reciever: { id: recieveId } },
+            { creator: { id: recieveId }, reciever: { id: user.id } }
+          ],
+          relations: ['creator', 'reciever']
         });
       }),
       switchMap((friendRequest: FriendRequestEntity | undefined) => {
+        if (friendRequest?.reciever.id == creator.id) {
+          return of({ status: 'accepted' as friendRequest_status }); // Or handle accordingly
+        }
         if (!friendRequest) {
           return of({ status: 'Not requested' }); // Or handle accordingly
         }
-        return of({ status: friendRequest.status });
-      }),
+        return of({ status: friendRequest?.status ||'not-sent' });
+      }), 
     );
+
   }
   getFriendRequestUserById(friendRequestId: number): Observable<friendRequest> {
     return from(this.friendRequestRepository.findOne({
@@ -143,7 +148,7 @@ export class UserService {
       })
     )
   }
-  getFriendRequestfromRecipients(user:User): Observable<friendRequest[]> {
+  getFriendRequestfromRecipients(user: User): Observable<friendRequest[]> {
     let currentUser: User = new UserEntity();
     currentUser.email = user.email;
     currentUser.id = user.id;
@@ -151,8 +156,9 @@ export class UserService {
     currentUser.username = user.username
     return from(this.friendRequestRepository.find({
       where: [{ reciever: currentUser }],
+      relations:['reciever','creator']
     }),
-  );
+    );
   }
 
 }

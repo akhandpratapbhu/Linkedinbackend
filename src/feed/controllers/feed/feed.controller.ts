@@ -22,7 +22,7 @@ export class FeedController {
     @Post()
     @UseInterceptors(FileInterceptor('file', { storage }))
     create(@Body() feedpost: FeedPost, @Request() req) {
-        const file = req.file.originalname; 
+        const file = req.file.fileName; 
       //  await this.userService.updateUserImageById(userId, file); // Assuming you have a method in your service to update the user's image
       //  return { message: 'Image uploaded successfully' ,img:file};
       //  const feedimage=feedpost.image
