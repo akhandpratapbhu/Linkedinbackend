@@ -33,7 +33,10 @@ export class UserController {
     findUserById(@Param('id') id: number):Observable<User> {
       return this.userService.findUserById(id);
     }
-
+    @Get('search/:username')
+    async searchByUsername(@Param('username') username: string): Promise<User[]> {
+      return this.userService.searchByUsername(username);
+    }
 
     @UseGuards(JwtGuard)
     @Get('image/:id')

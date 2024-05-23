@@ -7,6 +7,7 @@ import { friendRequest, friendRequestStatus, friendRequest_status } from 'src/au
 import { UserEntity } from 'src/auth/models/user.entity';
 import { User } from 'src/auth/models/user.interface';
 import { Repository } from 'typeorm';
+import { Like } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -35,6 +36,13 @@ export class UserService {
       })
     );
   }
+  async searchByUsername(username: string): Promise<UserEntity[]> {
+    return this.userRepository.find({ 
+      where: { 
+        username: Like(`%${username}%`) 
+      },relations:['feedPosts']
+    });
+  }
   updateUserImageById(id: number, image: string) {
     const user: User = new UserEntity();
     user.id = id;
@@ -55,20 +63,7 @@ export class UserService {
     }
     return user // Assuming the user entity has a property "imageName" which holds the name of the image file
   }
-  // hasRequestBeenSentOrRecieved(creator: User, reciever: User): Observable<boolean> {
-  //   return from(this.friendRequestRepository.find({
-  //     where: [
-  //       { creator, reciever },
-  //       { creator: reciever, reciever: creator },
-  //     ],
-  //   }),
-  //   ).pipe(
-  //     switchMap((friendRequest:friendRequest) => {
-  //       if (!friendRequest) return of(false);
-  //       return of(true);
-  //     })
-  //   )
-  // }
+
   hasRequestBeenSentOrReceived(creator: User, reciever: User): Observable<boolean> {
     return from(
       this.friendRequestRepository.count({
