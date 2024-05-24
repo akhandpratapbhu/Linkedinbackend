@@ -89,4 +89,8 @@ export class UserController {
 
       return this.userService.getFriendRequestfromRecipients(req.user);
     }
+    @Get()
+    findAllUser(): Observable<User[]> {
+        return this.userService.findAllUser();
+    }
 }

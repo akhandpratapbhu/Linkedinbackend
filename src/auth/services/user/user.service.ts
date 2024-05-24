@@ -155,5 +155,7 @@ export class UserService {
     }),
     );
   }
-
+  findAllUser():Observable<User[]>{
+    return from(this.userRepository.find())
+}
 }
