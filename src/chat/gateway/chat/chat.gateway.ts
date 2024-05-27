@@ -55,7 +55,7 @@ import { Server } from 'http';
       
       const savedMessage = await this.chatService.createMessage(message);
       console.log(savedMessage);
-      this.server.emit('receiveMessage',message)
+      this.server.emit('receiveMessage',savedMessage)
       //client.to(message.recipientId).emit('receiveMessage', savedMessage);
     }
   
