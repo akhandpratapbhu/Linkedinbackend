@@ -13,8 +13,8 @@ import { MailController } from './controllers/mail/mail.controller';
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-          user: 'akhandbhu11@gmail.com', // replace with your email
-          pass: 'Akhanda@11', // replace with your email password or app-specific password
+          user: 'akhandpratap121196@gmail.com', // replace with your email
+          pass: 'qrfouinfzdcihiaz', // replace with your email password or app-specific password
         },
       },
     })
@@ -24,6 +24,10 @@ import { MailController } from './controllers/mail/mail.controller';
   controllers: [MailController],
 })
 export class MailModule {}
+// auth: Contains authentication credentials.
+// user: The Gmail account used to send emails.
+// pass: The password for the Gmail account or an app-specific password if 2FA is enabled.
+
 // "EmailHost": "smtp.gmail.com",
 //   "EmailUsername": "arjun.netsmartz@gmail.com",
 //   "EmailPassword": "rnprkmdxhceurdrx",

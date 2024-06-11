@@ -11,15 +11,11 @@ export class MailService {
       
       await this.mailerService.sendMail({
         to: user.email,
-        from:'akhandbhu11@gmail.com',
-        subject: 'Welcome to Nice App! Confirm your Email',
+       // from:'akhandpratap121196@gmail.com',
+        subject: 'Welcome to Linkedin App! Confirm your Email',
         text:'welcome',
         html:'welcome to sending mail vai nestjs and nodemailer'
-      //  template: './confirmation', // `.hbs` extension is appended automatically
-        // context: { // ✏️ filling curly brackets with content
-        //   name: user.name,
-        //   url: `example.com/auth/confirm?token=${token}`,
-        // },
+     
       });
     }
 }
