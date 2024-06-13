@@ -43,10 +43,17 @@ export class UserService {
       },relations:['feedPosts']
     });
   }
+
   updateUserImageById(id: number, image: string) {
     const user: User = new UserEntity();
     user.id = id;
-    user.image = image;
+    user.image = image; 
+    return this.userRepository.update(id, user)
+  }
+  updateUserbackgroundImageById(id: number, image: string) {
+    const user: User = new UserEntity();
+    user.id = id;
+    user.backgroundimage=image;
     return this.userRepository.update(id, user)
   }
   async findImgUserById(id: number): Promise<string> {

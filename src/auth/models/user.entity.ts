@@ -18,6 +18,10 @@ export class UserEntity{
     
     @Column({nullable:true})
     image:string;
+    
+    @Column({nullable:true})
+    backgroundimage:string;
+
     @Column()
     phoneNumber:string;
 

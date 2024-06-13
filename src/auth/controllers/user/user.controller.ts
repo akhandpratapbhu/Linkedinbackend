@@ -28,7 +28,21 @@ export class UserController {
         throw new HttpException('Failed to upload image', HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-
+    @UseGuards(JwtGuard)
+    @Post('uploadbackgroundimage')
+    @UseInterceptors(FileInterceptor('file', { storage }))
+    async uploadbackgroundimage(@Request() req) {
+      try {
+        const file = req.file.originalname; // Access the uploaded file from req.file
+        const userId = req.user.id; // Assuming you have a user object attached to the request by the JwtAuthGuard
+        // Now you can use the user ID and the uploaded file to update the user's profile image
+        await this.userService.updateUserbackgroundImageById(userId, file); // Assuming you have a method in your service to update the user's image
+        return { message: 'Image uploaded successfully' ,img:file};
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        throw new HttpException('Failed to upload image', HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
     @Get(':id')
     findUserById(@Param('id') id: number):Observable<User> {
       return this.userService.findUserById(id);
