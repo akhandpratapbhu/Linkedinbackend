@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Redirect } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
 import { User } from 'src/auth/models/user.interface';
 import { AuthService } from 'src/auth/services/auth/auth.service';
@@ -34,6 +34,10 @@ export class AuthController {
         }
 
        
+    }
+    @Post('/loginWithGoogle')
+    loginWithGoogle(@Body() user: User) {
+        return Redirect('http://localhost:4200/dashboard')
     }
     @Get(':id')
     findUserById(@Param('id') id: number): Promise<any> {
