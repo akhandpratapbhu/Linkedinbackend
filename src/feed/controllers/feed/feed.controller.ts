@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Request, Res, UseGuard
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Observable } from 'rxjs';
 import { Roles } from 'src/auth/decorators/role/roles.decorator';
+import { GoogleAuthGuard } from 'src/auth/guards/google-auth/google-auth.guard';
 import { IsCreatorGuard } from 'src/auth/guards/is-creator/is-creator.guard';
 import { JwtGuard } from 'src/auth/guards/jwt/jwt.guard';
 import { RolesGuard } from 'src/auth/guards/roles/roles.guard';
@@ -22,11 +23,6 @@ export class FeedController {
     @Post()
     @UseInterceptors(FileInterceptor('file', { storage }))
     create(@Body() feedpost: FeedPost, @Request() req) {
-        const file = req.file.fileName; 
-      //  await this.userService.updateUserImageById(userId, file); // Assuming you have a method in your service to update the user's image
-      //  return { message: 'Image uploaded successfully' ,img:file};
-      //  const feedimage=feedpost.image
-      //  console.log(file,feedimage);
         return this.feedService.createPost(req.user, feedpost,req)
     }
     @Get()

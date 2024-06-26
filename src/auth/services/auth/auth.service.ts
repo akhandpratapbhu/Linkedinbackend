@@ -19,8 +19,11 @@ export class AuthService {
       }
       
       async registerUser(user: User): Promise<User> {
-        const hashedPassword = await this.hashPassword(user.password);
-        user.password = hashedPassword;
+        if(user.password){
+          const hashedPassword = await this.hashPassword(user.password);
+          user.password = hashedPassword;
+        }
+      
         return this.userRepository.save(user);
       }
       async loginUser(user: User): Promise<{ token: string }> {

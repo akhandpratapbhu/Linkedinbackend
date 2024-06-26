@@ -22,7 +22,7 @@ export class UserEntity{
     @Column({nullable:true})
     backgroundimage:string;
 
-    @Column()
+    @Column({nullable:true})
     phoneNumber:string;
 
     @Column()

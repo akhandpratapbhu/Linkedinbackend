@@ -19,7 +19,7 @@ export class FeedService {
     createPost(user:User,feedpost: FeedPost,req:any):Observable<FeedPost>{  
         feedpost.author=user
         feedpost.body=req.body.body
-        feedpost.image=req.file.originalname; 
+        feedpost.image=req?.file?.originalname; 
         return from(this.feedPostRepository.save(feedpost))
     }
    

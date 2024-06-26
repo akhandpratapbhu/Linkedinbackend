@@ -7,6 +7,8 @@ import { FeedModule } from './feed/feed.module';
 import { AuthModule } from './auth/auth.module';
 import { ChatModule } from './chat/chat.module';
 import { MailModule } from './mail/mail.module';
+import { StripeController } from './stripe/controllers/stripe/stripe.controller';
+import { StripeService } from './stripe/service/stripe/stripe.service';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { MailModule } from './mail/mail.module';
     ChatModule,
     MailModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, StripeController],
+  providers: [AppService, StripeService],
 })
 export class AppModule {}
