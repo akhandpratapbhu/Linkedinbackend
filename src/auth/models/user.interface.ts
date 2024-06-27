@@ -13,3 +13,7 @@ export interface User{
     role?:Role,
     posts?:FeedPost[]
 }
+export interface googleUser{
+    name?:string
+    email?:string
+}
