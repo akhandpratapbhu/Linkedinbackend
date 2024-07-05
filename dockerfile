@@ -3,33 +3,25 @@
 FROM node:20.13.1 AS development
 
 # Specify Working directory inside container
-WORKDIR /akhand/src/app
+WORKDIR /akhand/backend
 
 # Copy package-lock.json & package.json from host to inside container working directory
 COPY package*.json ./
 
+# Copy tsconfig.json file
+COPY tsconfig*.json ./
+
 # Install deps inside container
 RUN npm install
 
+# Copy the rest of the application code
+COPY . .
+
 RUN npm run build
 
-EXPOSE 3000
-
-################
-## PRODUCTION ##
-################
-# Build another image named production
-FROM node:20.13.1 AS production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-# Set work dir
-WORKDIR /akhand/src/app
-
-COPY --from=development /akhand/src/app/ .
+COPY main.js ./dist
 
 EXPOSE 3000
 
 # run app
-CMD [ "node", "dist/main"]
+CMD [ "nest", "start"]
