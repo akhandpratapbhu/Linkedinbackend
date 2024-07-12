@@ -26,11 +26,11 @@ export class AuthService {
 
     return this.userRepository.save(user);
   }
-  async loginWithGoogleUser(user: User) {
+  async loginWithSocialUser(user: User) {
     const existingUser = await this.userRepository.findOne({ where: { email: user.email } });
     if (!existingUser) {
      await this.registerUser(user)
-     return this.loginWithGoogleUser(user)
+     return this.loginWithSocialUser(user)
       // throw new NotFoundException('User not found'); // User with provided email doesn't exist
     }
    
