@@ -1,5 +1,7 @@
 import { UserEntity } from "src/auth/models/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { LikeEntity } from "./like.entity";
+import { CommentEntity } from "./comment.entity";
 
 @Entity('feed_post')
 export class FeedPostEntity{
@@ -17,5 +19,10 @@ export class FeedPostEntity{
     createAt:Date;
 
     @ManyToOne(()=>UserEntity,(UserEntity)=>UserEntity.feedPosts)
-    author:UserEntity;
+    user:UserEntity;
+    @OneToMany(() => LikeEntity, (like) => like.post)
+    like: LikeEntity[];
+  
+    @OneToMany(() => CommentEntity, (comment) => comment.post)
+    comment: CommentEntity[];
 }

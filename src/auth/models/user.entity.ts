@@ -3,6 +3,8 @@ import { Role } from "./role.enum";
 import { FeedPostEntity } from "src/feed/modes/post.entity";
 import { FriendRequestEntity } from "./friend-request.entity";
 import { Message } from "src/chat/message.entity"; 
+import { LikeEntity } from "src/feed/modes/like.entity";
+import { CommentEntity } from "src/feed/modes/comment.entity";
 
 @Entity('user')
 export class UserEntity{
@@ -31,7 +33,7 @@ export class UserEntity{
     @Column({default:Role.User})
     role:Role;
 
-    @OneToMany(()=>FeedPostEntity,(FeedPostEntity)=>FeedPostEntity.author)
+    @OneToMany(()=>FeedPostEntity,(FeedPostEntity)=>FeedPostEntity.user)
     feedPosts:FeedPostEntity[]
 
     @OneToMany(()=>FriendRequestEntity,(FriendRequestEntity)=>FriendRequestEntity.creator)
@@ -45,4 +47,9 @@ export class UserEntity{
 
     @OneToMany(() => Message, (message) => message.recipient)
     receivedMessages: Message[];
+    @OneToMany(() => LikeEntity, (like) => like.post)
+    like: LikeEntity[];
+  
+    @OneToMany(() => CommentEntity, (comment) => comment.post)
+    comment: CommentEntity[];
 }

@@ -5,7 +5,8 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 export class Message {
   @PrimaryGeneratedColumn()
   id: number;
-
+  @Column()
+  roomId: string;
   @Column()
   content: string;
 

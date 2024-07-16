@@ -17,14 +17,14 @@ export class FeedService {
         private readonly userRepository: Repository<UserEntity>,
     ) { }
     createPost(user:User,feedpost: FeedPost,req:any):Observable<FeedPost>{  
-        feedpost.author=user
+        feedpost.user=user
         feedpost.body=req.body.body
         feedpost.image=req?.file?.originalname; 
         return from(this.feedPostRepository.save(feedpost))
     }
    
     findAllPost():Observable<FeedPost[]>{
-        return from(this.feedPostRepository.find({relations:['author'] }))
+        return from(this.feedPostRepository.find({relations:['user'] }))
     }
     updateFeedPost(id,feedpost:FeedPost):Observable<UpdateResult>{
         return from(this.feedPostRepository.update(id,feedpost))
@@ -39,7 +39,7 @@ export class FeedService {
     //     return from(this.feedPostRepository.findOneById(id));
     //   }
     async findPostById(id: number): Promise<any> {
-        const feedPost = await this.feedPostRepository.find( {where:{ id:id},relations:['author'] });
+        const feedPost = await this.feedPostRepository.find( {where:{ id:id},relations:['user'] });
         if (!feedPost) {
           throw new NotFoundException(`Post with ID ${id} not found`);
         }

@@ -45,9 +45,11 @@
 //   }
 import { WebSocketGateway, WebSocketServer, SubscribeMessage, MessageBody, ConnectedSocket, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { ChatService } from './chat.service';
 
 @WebSocketGateway()
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+  constructor(private readonly chatService: ChatService) {}
   @WebSocketServer()
   server: Server;
 
@@ -66,8 +68,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('sendMessage')
-  handleMessage(@MessageBody() data: { roomId: string; message: any }, @ConnectedSocket() client: Socket) {
+  async handleMessage(@MessageBody() data: { roomId: string; message: any }, @ConnectedSocket() client: Socket) {
     this.server.to(data.roomId).emit('message', data.message);
     console.log(`Message sent to room ${data.roomId}: ${data.message}`);
+    const savedMessage = await this.chatService.createMessage(data.roomId,data.message);
+          console.log(savedMessage);
+          this.server.emit('message',savedMessage)
+          client.to(data.message.recipientId).emit('message', savedMessage);
   }
+  
 }

@@ -9,12 +9,7 @@ WORKDIR /akhand/src/app
 # Copy package-lock.json & package.json from host to inside container working directory
 COPY package*.json ./
 
-# Install deps inside container
 RUN npm install
-
-# Install Nest CLI globally
-RUN npm install -g @nestjs/cli
-
 # Copy all files from the host to the container
 COPY . .
 
@@ -24,4 +19,4 @@ RUN npm run build
 EXPOSE 3000
 
 # run app
-CMD ["npm", "start"]
+CMD ["node", "dist/main"]

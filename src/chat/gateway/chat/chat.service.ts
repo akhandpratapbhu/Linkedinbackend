@@ -14,7 +14,7 @@ export class ChatService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async createMessage(message: any): Promise<Message> {
+  async createMessage(roomId:string,message: any): Promise<Message> {
     // Fetch the sender using findOne
     const sender = await this.usersRepository.findOne({ where: { id: message.senderId } });
     if (!sender) {
@@ -29,6 +29,7 @@ export class ChatService {
 
     // Create a new message
     const newMessage = this.messagesRepository.create({
+        roomId:roomId,
         content: message.content,
         sender: sender,
         recipient: recipient,
