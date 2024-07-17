@@ -1,10 +1,12 @@
 // like.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from 'src/auth/models/user.entity';
 import { LikeEntity } from '../modes/like.entity';
 import { FeedPostEntity } from '../modes/post.entity';
+import { from, Observable } from 'rxjs';
+import { Like } from '../modes/like.interface';
 
 @Injectable()
 export class LikeService {
@@ -18,10 +20,29 @@ export class LikeService {
   ) {}
 
   async likePost(userId: number, postId: number): Promise<LikeEntity> {
-    const user = await this.userRepository.findOneById(userId);
-    const post = await this.feedPostRepository.findOneById(postId);
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const post = await this.feedPostRepository.findOne({ where: { id: postId } });
 
-    const like = this.likeRepository.create({ user, post });
-    return this.likeRepository.save(like);
+    if (!user || !post) {
+      throw new NotFoundException('User or Post not found');
+    }
+    const existingLike = await this.likeRepository.findOne({ where: { user, post } });
+
+    if (existingLike) {
+      await this.likeRepository.remove(existingLike);
+      return null;
+    } else {
+      const like = this.likeRepository.create({ user, post });
+      return this.likeRepository.save(like);
+    }
+
+  }
+  findAllLikes(postId: number) {
+    return from(
+      this.likeRepository.find({
+        where: { post: { id: postId } },
+        relations: ['user', 'post'],
+      })
+    );
   }
 }

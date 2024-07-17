@@ -56,7 +56,9 @@ export class IsCreatorGuard implements CanActivate {
     const uid = await this.authService.findUserById(userId);
 
     const feedPost = fid;
-    const firstFeedPostAuthorId = feedPost[0].author.id;
+    const firstFeedPostAuthorId = feedPost[0];
+    console.log(firstFeedPostAuthorId);
+    
     const userIdCheck = uid[0].id;
     
     //  console.log(feedPost,firstFeedPostAuthorId);

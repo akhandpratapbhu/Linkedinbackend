@@ -10,8 +10,8 @@ import { LikeEntity } from './modes/like.entity';
 import { CommentEntity } from './modes/comment.entity';
 import { CommentService } from './services/comment.service';
 import { LikeService } from './services/like.service';
-import { CommentController } from './controllers/feed/comment.controller';
 import { LikeController } from './controllers/like.controller';
+import { CommentController } from './controllers/comment.controller';
 
 @Module({
   imports:[AuthModule,TypeOrmModule.forFeature([FeedPostEntity,UserEntity,LikeEntity,CommentEntity]),],

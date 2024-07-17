@@ -14,12 +14,18 @@ export class FeedPostEntity{
     
     @Column({default:''})
     image:string;
+    @Column({default:''})
+    likes:string;
     
+    @Column({default:''})
+    comments:string;
+
     @Column({type:'timestamp',default:()=>'CURRENT_TIMESTAMP'})
     createAt:Date;
 
     @ManyToOne(()=>UserEntity,(UserEntity)=>UserEntity.feedPosts)
     user:UserEntity;
+    
     @OneToMany(() => LikeEntity, (like) => like.post)
     like: LikeEntity[];
   

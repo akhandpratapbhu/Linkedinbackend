@@ -6,7 +6,8 @@ export interface FeedPost{
     body?:string,
     image?:string,
     createdAt?:Date,
+    likes?:string,
+    comments?:string
     user?:User,
-    // like?:Like,
-    // comment?:Comment
+   
 }

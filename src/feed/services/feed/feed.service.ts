@@ -16,17 +16,18 @@ export class FeedService {
         @InjectRepository(UserEntity)
         private readonly userRepository: Repository<UserEntity>,
     ) { }
-    createPost(user:User,feedpost: FeedPost,req:any):Observable<FeedPost>{  
+    createPost(user:User,feedpost: FeedPost,req:any){  
         feedpost.user=user
         feedpost.body=req.body.body
         feedpost.image=req?.file?.originalname; 
         return from(this.feedPostRepository.save(feedpost))
     }
-   
     findAllPost():Observable<FeedPost[]>{
         return from(this.feedPostRepository.find({relations:['user'] }))
     }
     updateFeedPost(id,feedpost:FeedPost):Observable<UpdateResult>{
+        feedpost.comments=feedpost.comments
+        feedpost.likes=feedpost.likes
         return from(this.feedPostRepository.update(id,feedpost))
     }
     deleteFeedPost(id):Observable<DeleteResult>{

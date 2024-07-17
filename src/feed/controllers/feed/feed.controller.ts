@@ -30,9 +30,10 @@ export class FeedController {
         return this.feedService.findAllPost();
     }
 
-    @UseGuards(JwtGuard, IsCreatorGuard)
+   // @UseGuards(JwtGuard, IsCreatorGuard)
     @Put(':id')
     updateFeedPost(@Param('id') id: number, @Body() feedpost: FeedPost): Observable<UpdateResult> {
+        
         return this.feedService.updateFeedPost(id, feedpost)
     }
 
