@@ -11,6 +11,8 @@ import { UserService } from './services/user/user.service';
 import { UserController } from './controllers/user/user.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { FriendRequestEntity } from './models/friend-request.entity';
+import { ChatService } from 'src/chat/gateway/chat/chat.service';
+import { Message } from 'src/chat/message.entity';
 @Module({
   imports:[ MulterModule.register({
     dest: './uploads', // Destination directory for uploaded files
@@ -21,8 +23,8 @@ import { FriendRequestEntity } from './models/friend-request.entity';
    }) 
   })
     
-   , TypeOrmModule.forFeature([UserEntity,FriendRequestEntity])],
-  providers: [AuthService,JwtGuard,JwtStrategy,RolesGuard, UserService],
+   , TypeOrmModule.forFeature([UserEntity,FriendRequestEntity,Message])],
+  providers: [AuthService,JwtGuard,JwtStrategy,RolesGuard, UserService,ChatService],
   controllers: [AuthController, UserController],
   exports:[AuthService,UserService]
 })

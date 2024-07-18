@@ -18,5 +18,6 @@ import { ChatService } from './gateway/chat/chat.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Message, UserEntity])],
   providers: [ChatGateway, ChatService],
+  exports:[ChatService]
 })
 export class ChatModule {}

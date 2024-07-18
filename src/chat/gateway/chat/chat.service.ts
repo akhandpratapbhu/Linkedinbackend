@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { from, Observable } from 'rxjs';
 import { UserEntity } from 'src/auth/models/user.entity';
 import { Message } from 'src/chat/message.entity';
 import { Repository } from 'typeorm';
@@ -35,8 +36,18 @@ export class ChatService {
         recipient: recipient,
     });
 
-    // Save the new message to the repository
     return this.messagesRepository.save(newMessage);
+}
+ getMessageByRoomId(roomId:string) : Observable<Message[]> {
+
+  return from(this.messagesRepository.find({ 
+    where: { 
+      roomId: roomId
+    },relations:['sender'],
+    order: {
+      id: 'ASC' // Ordering by 'id' in ascending order
+    }
+  }))
 }
 
 }

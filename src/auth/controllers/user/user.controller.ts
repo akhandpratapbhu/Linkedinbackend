@@ -8,10 +8,12 @@ import { Response } from 'express';
 import * as path from 'path';
 import { friendRequest, friendRequestStatus } from 'src/auth/models/friend-request.interface';
 import { User } from 'src/auth/models/user.interface';
+import { ChatService } from 'src/chat/gateway/chat/chat.service';
+import { Message } from 'src/chat/gateway/chat/message.interface';
 @Controller('user')
 export class UserController {
 
-    constructor(private readonly userService: UserService) { }
+    constructor(private readonly userService: UserService,private chatService:ChatService) { }
 
    @UseGuards(JwtGuard)
     @Post('upload')
@@ -106,5 +108,16 @@ export class UserController {
     @Get()
     findAllUser(): Observable<User[]> {
         return this.userService.findAllUser();
+    }
+    @Get('chatWithRoomId/:roomId')
+     getMessageByRoomId(@Param('roomId') roomId: string): Observable<Message[]> {
+      try {
+        return  this.chatService.getMessageByRoomId(roomId);
+      } catch (error) {
+        if (error instanceof NotFoundException) {
+          throw error; // Rethrow NotFoundException to handle it globally
+        }
+        throw new NotFoundException(`chat with ID ${roomId} not found`);
+      }
     }
 }

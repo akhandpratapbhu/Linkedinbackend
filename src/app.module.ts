@@ -9,6 +9,7 @@ import { ChatModule } from './chat/chat.module';
 import { MailModule } from './mail/mail.module';
 import { StripeController } from './stripe/controllers/stripe/stripe.controller';
 import { StripeService } from './stripe/service/stripe/stripe.service';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { StripeService } from './stripe/service/stripe/stripe.service';
     AuthModule,
     ChatModule,
     MailModule,
+    NotificationModule,
   ],
   controllers: [AppController, StripeController],
   providers: [AppService, StripeService],

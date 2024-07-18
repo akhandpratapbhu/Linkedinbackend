@@ -49,7 +49,6 @@ export class UserEntity{
     receivedMessages: Message[];
     @OneToMany(() => LikeEntity, (like) => like.post)
     like: LikeEntity[];
-  
     @OneToMany(() => CommentEntity, (comment) => comment.post)
     comment: CommentEntity[];
 }

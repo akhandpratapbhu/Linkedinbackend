@@ -35,10 +35,6 @@ export class FeedService {
         
     }
  
-    // findPostById(id: number): Observable<any> {
-        
-    //     return from(this.feedPostRepository.findOneById(id));
-    //   }
     async findPostById(id: number): Promise<any> {
         const feedPost = await this.feedPostRepository.find( {where:{ id:id},relations:['user'] });
         if (!feedPost) {

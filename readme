@@ -15,3 +15,7 @@ to generate the feed service run command- nest g s feed/services/feed
 npm i passport passport-jwt @nestjs/passport @nestjs/jwt bcrypt
 to generate the guard- nest g gu auth/guards/jwt
 to generate the decorator-nest g d auth/decorators/role
+
+command-  nest generate module notification
+nest generate service notification
+nest generate controller notification

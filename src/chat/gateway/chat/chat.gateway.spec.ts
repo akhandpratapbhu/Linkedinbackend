@@ -11,7 +11,6 @@ describe('ChatGateway', () => {
 
     gateway = module.get<ChatGateway>(ChatGateway);
   });
-
   it('should be defined', () => {
     expect(gateway).toBeDefined();
   });
