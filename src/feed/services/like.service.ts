@@ -26,6 +26,7 @@ export class LikeService {
     if (!user || !post) {
       throw new NotFoundException('User or Post not found');
     }
+    
     const existingLike = await this.likeRepository.findOne({ where: { user, post } });
 
     if (existingLike) {
@@ -35,8 +36,8 @@ export class LikeService {
       const like = this.likeRepository.create({ user, post });
       return this.likeRepository.save(like);
     }
-
   }
+  
   findAllLikes(postId: number) {
     return from(
       this.likeRepository.find({

@@ -29,7 +29,9 @@ export class CommentService {
     return from(
       this.commentRepository.find({
         where: { post: { id: postId } },
-        relations: ['user', 'post'],
+        relations: ['user', 'post'],order: {
+          id: 'ASC' // Ordering by 'id' in ascending order
+        }
       })
     );
   }
