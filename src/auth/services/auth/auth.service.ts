@@ -86,5 +86,22 @@ export class AuthService {
     }
     return userId;
   }
+
+  async changeUserPassword(user: User) {
+    // Find the user by email or username (assuming you use email for login)
+    const existingUser = await this.userRepository.findOne({ where: { email: user.email } });
+   
+    if (!existingUser) {
+      throw new NotFoundException('User not found'); // User with provided email doesn't exist
+    }
+  
+    if (user.password) {
+      const hashedPassword = await this.hashPassword(user.password);
+      user.password = hashedPassword;
+      existingUser.password=user.password
+    }
+
+    return this.userRepository.save(existingUser);
+  }
 }
 

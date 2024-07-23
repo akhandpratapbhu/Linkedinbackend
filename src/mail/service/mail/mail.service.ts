@@ -18,4 +18,16 @@ export class MailService {
      
       });
     }
+    async sendUserConfirmationOtp(user: any, ) {
+      console.log("user",user);
+      
+      await this.mailerService.sendMail({
+        to: user.email,
+       // from:'akhandpratap121196@gmail.com',
+        subject: 'forget password to use otp for setting new password',
+        
+        html:'6 digit otp is-' + user.otp,
+     
+      });
+    }
 }

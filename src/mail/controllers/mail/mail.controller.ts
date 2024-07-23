@@ -11,4 +11,9 @@ export class MailController {
       const user = { email: body.email, name: body.name };
       return await this.mailService.sendUserConfirmation(user, body.token);
     }
+    @Post('send-otp')
+    async sendConfirmationOtp(@Body() body: {  email: string; otp: string }) {
+      const user = {email: body.email, otp: body.otp };
+      return await this.mailService.sendUserConfirmationOtp(user);
+    }
 }

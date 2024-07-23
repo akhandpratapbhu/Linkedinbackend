@@ -47,4 +47,8 @@ export class AuthController {
     findUserById(@Param('id') id: number): Promise<any> {
         return this.authService.findUserById(id);
     }
+    @Post('/changePassword')
+    changeUserPassword(@Body() user: User) {
+        return this.authService.changeUserPassword(user)
+    }
 }
