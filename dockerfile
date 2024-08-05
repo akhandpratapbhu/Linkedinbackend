@@ -4,10 +4,10 @@
 FROM node:20.13.1 AS development
 
 # Specify Working directory inside container
-WORKDIR /akhand/src/app
+WORKDIR /app
 
 # Copy package-lock.json & package.json from host to inside container working directory
-COPY package*.json ./
+COPY package.json .
 
 RUN npm install
 # Copy all files from the host to the container

@@ -13,16 +13,16 @@ import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal:true}),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
-      type:'postgres',
-      host:process.env.POSTGRESS_HOST,
-      port:parseInt(process.env.POSTGRESS_PORT),
-      username:process.env.POSTGRESS_USER,
-      password:process.env.POSTGRESS_PASSWORD,
-      database:process.env.POSTGRESS_DATABASE,
-      autoLoadEntities:true,
-      synchronize:true,
+      type: 'postgres',
+      host: process.env.POSTGRES_HOST || 'postgres'|| 'localhost',
+      port: parseInt(process.env.POSTGRES_PORT, 10) || 5432,
+      username: process.env.POSTGRES_USER || 'postgres',
+      password: process.env.POSTGRES_PASSWORD || 'Admin',
+      database: process.env.POSTGRES_DATABASE || 'linkedin',
+      autoLoadEntities: true,
+      synchronize: true,
 
     }),
     FeedModule,
@@ -34,4 +34,4 @@ import { NotificationModule } from './notification/notification.module';
   controllers: [AppController, StripeController],
   providers: [AppService, StripeService],
 })
-export class AppModule {}
+export class AppModule { }
