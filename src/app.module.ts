@@ -16,7 +16,8 @@ import { NotificationModule } from './notification/notification.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.POSTGRES_HOST || 'postgres'|| 'localhost',
+      host: process.env.POSTGRES_HOST || 'localhost',
+      //host: process.env.POSTGRES_HOST || 'postgres',
       port: parseInt(process.env.POSTGRES_PORT, 10) || 5432,
       username: process.env.POSTGRES_USER || 'postgres',
       password: process.env.POSTGRES_PASSWORD || 'Admin',

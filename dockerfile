@@ -1,22 +1,23 @@
-# NestJS Backend Dockerfile
-# Specify Node Version and Image
-# Name Image development (can be anything)
+# Use a Node.js base image
 FROM node:20.13.1 AS development
 
-# Specify Working directory inside container
+# Set the working directory
 WORKDIR /app
 
-# Copy package-lock.json & package.json from host to inside container working directory
+# Copy package.json and package-lock.json
 COPY package.json .
 
+# Install dependencies
 RUN npm install
-# Copy all files from the host to the container
+
+# Copy all files to the container
 COPY . .
 
 # Build the NestJS application
 RUN npm run build
 
+# Expose the application port
 EXPOSE 3000
 
-# run app
+# Define the command to run the application
 CMD ["node", "dist/main"]
