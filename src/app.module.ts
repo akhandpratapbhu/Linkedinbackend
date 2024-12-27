@@ -21,7 +21,7 @@ import { NotificationModule } from './notification/notification.module';
       port: parseInt(process.env.POSTGRES_PORT, 10) || 5432,
       username: process.env.POSTGRES_USER || 'postgres',
       password: process.env.POSTGRES_PASSWORD || 'Admin',
-      database: process.env.POSTGRES_DATABASE || 'linkedin',
+      database: process.env.POSTGRES_DATABASE || 'linkedin-Akhand',
       autoLoadEntities: true,
       synchronize: true,
 

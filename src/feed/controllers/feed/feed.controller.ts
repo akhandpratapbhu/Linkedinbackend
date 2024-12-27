@@ -29,12 +29,12 @@ export class FeedController {
     findAll(): Observable<FeedPost[]> {
         return this.feedService.findAllPost();
     }
-
    // @UseGuards(JwtGuard, IsCreatorGuard)
     @Put(':id')
-    updateFeedPost(@Param('id') id: number, @Body() feedpost: FeedPost): Observable<UpdateResult> {
+    @UseInterceptors(FileInterceptor('file', { storage }))
+    updateFeedPost(@Param('id') id: number, @Body() feedpost: FeedPost, @Request() req): Observable<UpdateResult> {
         
-        return this.feedService.updateFeedPost(id, feedpost)
+        return this.feedService.updateFeedPost(id, feedpost,req)
     }
 
     @UseGuards(JwtGuard, IsCreatorGuard)
